@@ -1,0 +1,65 @@
+﻿
+@{
+    ViewBag.Title = "Ürün Güncelle";
+}
+
+
+@using MVC_CircloidTemplate.Models
+@model Product
+
+@*@section head
+{
+    <script src="~/Content/assets/js/required/jquery-1.11.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#file").on("change", function () {
+                const files = this.files;
+                console.log(files);
+                if (files.length > 0) {
+                    var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#picture').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(files[0])
+            }
+        })
+       });
+    </script>
+}*@
+<div class="row">
+    <div class="col-md-12">
+        <div class="block">
+            <div class="block-heading">
+                <div class="main-text h2">
+                    Ürün Güncelleme Sayfası
+                </div>
+                <div class="block-controls">
+                    <a href="/Product/Index"> <span aria-hidden="true" class="icon icon-cross icon-size-medium block-control-remove"></span></a>
+                    <span aria-hidden="true" class="icon icon-arrow-down icon-size-medium block-control-collapse"></span>
+                </div>
+            </div>
+            <div class="block-content-outer">
+                <div class="block-content-inner">
+                    <form action="/Product/UpdateProduct" method="post" role="form" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <input type="hidden" name="ProductID" value="@Model.ProductID" />
+                            <label for="exampleInputEmail1">Ürün Adı: </label>
+                            <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Ürün adı giriniz" name="ProductName" value="@Model.ProductName">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Fiyat: </label>
+                            <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Fiyat giriniz" name="UnitPrice" value="@Model.UnitPrice">
+                        </div>
+
+
+                        <button type="submit" class="btn btn-primary">Güncelle</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+

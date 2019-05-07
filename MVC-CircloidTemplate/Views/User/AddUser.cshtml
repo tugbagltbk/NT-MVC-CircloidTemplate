@@ -1,0 +1,62 @@
+﻿
+@{
+    ViewBag.Title = "Kullanıcı Ekleme";
+}
+
+
+@*@using MVC_CircloidTemplate.Models*@
+
+@section head
+{
+    <style>
+        #hata{
+            color:red;
+            font-size:16px;
+        }
+    </style>    
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="block">
+            <div class="block-heading">
+                <div class="main-text h2">
+                    Kullanıcı Ekleme Sayfası
+                </div>
+                <div class="block-controls">
+                    <a href="/User/Index"> <span aria-hidden="true" class="icon icon-cross icon-size-medium block-control-remove"></span></a>
+                    <span aria-hidden="true" class="icon icon-arrow-down icon-size-medium block-control-collapse"></span>
+                </div>
+            </div>
+            <div class="block-content-outer">
+                <div class="block-content-inner">
+                    <form action="/User/AddUser" method="post" role="form">
+                        <!--post olan metot çalışacak demek çünkü hem get hem post action ı var-->
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Kullanıcı Adı: </label>
+                            <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Kullanıcı adı giriniz" name="UserName">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Parola: </label>
+                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Şifre giriniz." name="Password">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Email: </label>
+                            <input type="email" class="form-control" id="exampleInputPassword1" placeholder="Email giriniz." name="Email">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Gizli Soru: </label>
+                            <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Gizli soru giriniz." name="PasswordQuestion">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Gizli Cevap: </label>
+                            <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Gizli cevap giriniz." name="PasswordAnswer">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Kaydet</button>
+                    </form>
+                    <span id="hata">@ViewBag.createMessage</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

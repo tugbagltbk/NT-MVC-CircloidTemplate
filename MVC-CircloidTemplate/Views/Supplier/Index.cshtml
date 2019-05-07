@@ -1,0 +1,118 @@
+﻿
+@{
+    ViewBag.Title = "Tedarikçiler";
+}
+
+@using MVC_CircloidTemplate.Models
+@model List<Supplier>
+@section head
+{
+    <style>
+        .hata {
+            color: red;
+        }
+    </style>
+    <script src="~/Content/assets/js/required/jquery-1.11.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(".modalAc").click(function () {
+                const sirketAdi = $(this).data("splname");
+                const id = $(this).data("splid");
+                console.log(sirketAdi, id);
+                $(".modal-body > p.mesaj").html(sirketAdi + " tedarikçisi silinsin mi?");
+                $(".splModalSil").data("splid", id);
+            });
+
+            $(".splModalSil").click(function () {
+               
+                const splID = $(this).data("splid");
+                console.log(splID);
+                $.ajax({
+                    type: "POST",
+                    url: "/Supplier/DeleteSupplier/" + splID,
+                    success: function (durum) {
+                        if (durum === "OK") { //javascripte eşitmi kontrolü 3=
+                            alert("Kayıt silindi");
+                            window.location.replace("/Supplier/Index");
+                        }
+                        else {
+                            alert("Kayıt silme sırasında hata oluştu.");
+                        }
+                    },
+                    error: function () {
+                        alert("Kayıt silme sırasında hata oluştu.");
+                    }
+                });
+            });
+        });
+    
+    </script>
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="block">
+            <div class="block-heading">
+                <div class="main-text h2">
+                    Tedarikçiler Listesi
+                </div>
+                <div class="block-controls">
+                    <span aria-hidden="true" class="icon icon-arrow-down icon-size-medium block-control-collapse"></span>
+                    <a href="/Supplier/AddSupplier" class="btn btn-success" role="button">Tedarikçi Ekle</a>
+                </div>
+            </div>
+            <div class="block-content-outer">
+                <div class="block-content-inner">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Şirket Adı</th>
+                                <th>Yetkili Kişi</th>
+                                <th>Güncelle</th>
+                                <th>Sil</th>
+                                <th>Modal ile Sil</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (Supplier spl in Model)
+                            {
+                                <tr>
+                                    <td>@spl.CompanyName</td>
+                                    <td>@spl.ContactName</td>
+                                    <td><a href="/Supplier/UpdateSupplier?spID=@spl.SupplierID" class="btn btn-success rounded">Güncelle</a></td>
+                                    <td>
+                                        <a href="/Supplier/DeleteSupplier?id=@spl.SupplierID" class="btn btn-danger rounded">Alert ile Sil</a>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-danger rounded modalAc" data-toggle="modal" data-target="#myModal" data-splid="@spl.SupplierID" data-splname="@spl.CompanyName">Modal ile Sil</button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section body
+{
+    <div class="modal fade small-modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="small-modal-label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" data-border-top="multi">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="small-modal-label">Tedarikçi Silme Ekranı</h4>
+                </div>
+                <div class="modal-body">
+                    <p class="mesaj" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+                    <button type="button" class="btn btn-danger splModalSil">Sil</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+}

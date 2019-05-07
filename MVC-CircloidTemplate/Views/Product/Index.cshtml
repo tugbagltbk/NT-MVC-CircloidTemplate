@@ -1,0 +1,96 @@
+﻿
+@{
+    ViewBag.Title = "Ürünler";
+}
+
+@using MVC_CircloidTemplate.Models
+@model List<Product>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="block">
+            <div class="block-heading">
+                <div class="main-text h2">
+                    Ürünler Listesi
+                </div>
+                <div class="block-controls">
+                    <span aria-hidden="true" class="icon icon-arrow-down icon-size-medium block-control-collapse"></span>
+                    <a href="/Product/AddProduct" class="btn btn-success" role="button">Ürün Ekle</a>
+                </div>
+            </div>
+            <div class="block-content-outer">
+                <div class="block-content-inner">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Ürün Adı</th>
+                                <th>Tedarikçi ID</th>
+                                <th>Tedarikçi Adı</th>
+                                <th>Kategori ID</th>
+                                <th>Kategori Adı</th>
+                                <th>Birimdeki Miktar</th>
+                                <th>Fiyat</th>
+                                <th>Stok</th>
+                                <th>Siparişteki Miktar</th>
+                                <th>Yeniden Sipariş Miktarı</th>
+                                <th>Sonlandı</th>
+                                <th>Güncelle</th>
+                                <th>Sil</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (Product prd in Model)
+                            {
+                            <tr>
+                                <td>@prd.ProductName</td>
+                                <td>@prd.SupplierID</td>
+                                @if (prd.Supplier == null) //içleri boş olursa kontrol amaçlı
+                                {
+                                    <td></td>
+                                }
+                                else
+                                {
+                                    <td><span class="label label-primary">@prd.Supplier.CompanyName</span></td>
+                                }
+
+                                <td>@prd.CategoryID</td>
+                                @if (prd.Category == null)
+                                {
+                                    <td></td>
+                                }
+                                else
+                                {
+                                    <td><span class="label label-info">@prd.Category.CategoryName</span></td>
+                                }
+
+                                <td>@prd.QuantityPerUnit</td>
+                                <td>@prd.UnitPrice</td>
+                                <td>@prd.UnitsInStock</td>
+                                <td>@prd.UnitsOnOrder</td>
+                                <td>@prd.ReorderLevel</td>
+                                @if (prd.Discontinued)
+                                {
+                                    <td><span class="label label-danger">Satışı yok</span></td>
+                                }
+                                else
+                                {
+                                    <td><span class="label label-success">Satışı var</span></td>
+                                }
+                                <td><a href="/Product/UpdateProduct/@prd.ProductID" class="btn btn-success rounded">Güncelle</a></td>
+                                <!--Sil için uygulamalar-->
+                                <td><a href="/Product/DeleteProduct?prdID=@prd.ProductID" class="btn btn-danger rounded">Sil</a></td>
+                                @*<td><a href="/Product/DeleteProduct/@prd.ProductID" class="btn btn-danger rounded">Sil</a></td>*@
+                                <!--Bir tane daha eklemek için,örneğin product name-->
+                                @*<td><a href="/Product/DeleteProduct?prdID=@prd.ProductID&prdName=@prd.ProductName" class="btn btn-danger rounded">Sil</a></td>*@
+                                <!--2.yol-->
+                                @*<td><a class="btn btn-danger rounded" href="Url.Action("DeleteProduct","Product"new {@prdID=@prd.ProductID})" >Sil</a></td>*@
+
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
